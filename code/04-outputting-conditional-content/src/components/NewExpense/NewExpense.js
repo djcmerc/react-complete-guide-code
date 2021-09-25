@@ -4,6 +4,7 @@ import ExpenseForm from './ExpenseForm';
 import './NewExpense.css';
 
 const NewExpense = (props) => {
+  const [addExpensePromptOpen, setAddExpensePromptOpen] = React.useState(false);
   const saveExpenseDataHandler = (enteredExpenseData) => {
     const expenseData = {
       ...enteredExpenseData,
@@ -12,9 +13,16 @@ const NewExpense = (props) => {
     props.onAddExpense(expenseData);
   };
 
+  const addExpenseWindowHandler = (openState) => {
+    setAddExpensePromptOpen(openState);
+  }
+
   return (
     <div className='new-expense'>
-      <ExpenseForm onSaveExpenseData={saveExpenseDataHandler} />
+      {addExpensePromptOpen && <ExpenseForm expenseAddWindowStateHandler={addExpenseWindowHandler} onSaveExpenseData={saveExpenseDataHandler} />}
+      {!addExpensePromptOpen && <div>
+        <button onClick={() => addExpenseWindowHandler(true)}>Add Expense</button>
+      </div>}
     </div>
   );
 };
